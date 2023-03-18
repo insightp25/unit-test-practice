@@ -31,6 +31,12 @@ class TranscriptServiceImplTest {
     private static final Course MATH = new Course().setId(3).setName("math");
     private static final Course SCIENCE = new Course().setId(4).setName("science");
 
+    // newly added to eliminate duplicate codes & magic numbers
+    final int KOREAN_COURSE_ID = KOREAN.getId();
+    final int ENGLISH_COURSE_ID = ENGLISH.getId();
+    final int MATH_COURSE_ID = MATH.getId();
+    final int SCIENCE_COURSE_ID = SCIENCE.getId();
+
     // newly added to eliminate duplicate codes
     private static final Student TREY = new Student().setId(1).setName("Trey").setMajor("Computer Engineering").setCourses(List.of(KOREAN, ENGLISH, MATH, SCIENCE));
     private static final Student AIDEN = new Student().setId(2).setName("Aiden").setMajor("Economics").setCourses(List.of(KOREAN, ENGLISH, MATH));
@@ -57,13 +63,13 @@ class TranscriptServiceImplTest {
         Mockito.when(studentRepository.getStudent(studentID))
                 .thenReturn(Optional.of(TREY));
 
-        Mockito.when(scoreRepository.getScore(studentID, 1))
+        Mockito.when(scoreRepository.getScore(studentID, KOREAN_COURSE_ID))
                 .thenReturn(Optional.of(new Score().setCourse(KOREAN).setScore(100)));
-        Mockito.when(scoreRepository.getScore(studentID, 2))
+        Mockito.when(scoreRepository.getScore(studentID, ENGLISH_COURSE_ID))
                 .thenReturn(Optional.of(new Score().setCourse(ENGLISH).setScore(90)));
-        Mockito.when(scoreRepository.getScore(studentID, 3))
+        Mockito.when(scoreRepository.getScore(studentID, MATH_COURSE_ID))
                 .thenReturn(Optional.of(new Score().setCourse(MATH).setScore(80)));
-        Mockito.when(scoreRepository.getScore(studentID, 4))
+        Mockito.when(scoreRepository.getScore(studentID, SCIENCE_COURSE_ID))
                 .thenReturn(Optional.of(new Score().setCourse(SCIENCE).setScore(70)));
 
         // when
@@ -100,21 +106,21 @@ class TranscriptServiceImplTest {
         Mockito.when(studentRepository.getStudent(studentID1))
                 .thenReturn(Optional.of(TREY));
 
-        Mockito.when(scoreRepository.getScore(studentID1, 1))
+        Mockito.when(scoreRepository.getScore(studentID1, KOREAN_COURSE_ID))
                 .thenReturn(Optional.of(new Score().setCourse(KOREAN).setScore(100)));
-        Mockito.when(scoreRepository.getScore(studentID1, 2))
+        Mockito.when(scoreRepository.getScore(studentID1, ENGLISH_COURSE_ID))
                 .thenReturn(Optional.of(new Score().setCourse(ENGLISH).setScore(90)));
-        Mockito.when(scoreRepository.getScore(studentID1, 3))
+        Mockito.when(scoreRepository.getScore(studentID1, MATH_COURSE_ID))
                 .thenReturn(Optional.of(new Score().setCourse(MATH).setScore(80)));
-        Mockito.when(scoreRepository.getScore(studentID1, 4))
+        Mockito.when(scoreRepository.getScore(studentID1, SCIENCE_COURSE_ID))
                 .thenReturn(Optional.of(new Score().setCourse(SCIENCE).setScore(70)));
 
         Mockito.when(studentRepository.getStudent(studentID2))
                 .thenReturn(Optional.of(YOUNG));
 
-        Mockito.when(scoreRepository.getScore(studentID2, 1))
+        Mockito.when(scoreRepository.getScore(studentID2, KOREAN_COURSE_ID))
                 .thenReturn(Optional.of(new Score().setCourse(KOREAN).setScore(95)));
-        Mockito.when(scoreRepository.getScore(studentID2, 2))
+        Mockito.when(scoreRepository.getScore(studentID2, ENGLISH_COURSE_ID))
                 .thenReturn(Optional.of(new Score().setCourse(ENGLISH).setScore(85)));
 
         // when
@@ -138,13 +144,13 @@ class TranscriptServiceImplTest {
         Mockito.when(studentRepository.getStudent(studentID))
                 .thenReturn(Optional.of(TREY));
 
-        Mockito.when(scoreRepository.getScore(studentID, 1))
+        Mockito.when(scoreRepository.getScore(studentID, KOREAN_COURSE_ID))
                 .thenReturn(Optional.of(new Score().setCourse(KOREAN).setScore(100)));
-        Mockito.when(scoreRepository.getScore(studentID, 2))
+        Mockito.when(scoreRepository.getScore(studentID, ENGLISH_COURSE_ID))
                 .thenReturn(Optional.of(new Score().setCourse(ENGLISH).setScore(90)));
-        Mockito.when(scoreRepository.getScore(studentID, 3))
+        Mockito.when(scoreRepository.getScore(studentID, MATH_COURSE_ID))
                 .thenReturn(Optional.of(new Score().setCourse(MATH).setScore(80)));
-        Mockito.when(scoreRepository.getScore(studentID, 4))
+        Mockito.when(scoreRepository.getScore(studentID, SCIENCE_COURSE_ID))
                 .thenReturn(Optional.empty());
 
         // when & then
@@ -158,10 +164,8 @@ class TranscriptServiceImplTest {
         // TODO:
 
         // given
-        final int courseID = KOREAN.getId();
-
-        Mockito.when(courseRepository.getCourse(courseID)).thenReturn(Optional.of(KOREAN));
-        Mockito.when(scoreRepository.getScores(courseID)).thenReturn(Map.of(
+        Mockito.when(courseRepository.getCourse(KOREAN_COURSE_ID)).thenReturn(Optional.of(KOREAN));
+        Mockito.when(scoreRepository.getScores(KOREAN_COURSE_ID)).thenReturn(Map.of(
                 TREY.getId(), (new Score().setCourse(KOREAN).setScore(80)),
                 AIDEN.getId(), (new Score().setCourse(KOREAN).setScore(90)),
                 YOUNG.getId(), (new Score().setCourse(KOREAN).setScore(100))
@@ -169,7 +173,7 @@ class TranscriptServiceImplTest {
         Mockito.when(studentRepository.getAllStudents()).thenReturn(List.of(TREY, AIDEN, YOUNG));
 
         // when
-        List<Student> rankedStudentsAsc = transcriptService.getRankedStudentsAsc(courseID);
+        List<Student> rankedStudentsAsc = transcriptService.getRankedStudentsAsc(KOREAN_COURSE_ID);
 
         // then
         Assertions.assertEquals(List.of(YOUNG, AIDEN, TREY), rankedStudentsAsc);
@@ -182,12 +186,10 @@ class TranscriptServiceImplTest {
         // TODO:
 
         // given
-        final int courseID = KOREAN.getId();
-
-        Mockito.when(courseRepository.getCourse(courseID)).thenReturn(Optional.empty());
+        Mockito.when(courseRepository.getCourse(KOREAN_COURSE_ID)).thenReturn(Optional.empty());
 
         // when & then
-        Assertions.assertThrows(NoSuchCourseException.class, () -> transcriptService.getRankedStudentsAsc(courseID));
+        Assertions.assertThrows(NoSuchCourseException.class, () -> transcriptService.getRankedStudentsAsc(KOREAN_COURSE_ID));
     }
 }
 
