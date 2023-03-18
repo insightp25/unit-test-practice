@@ -9,6 +9,7 @@ import com.flab.model.Student;
 import com.flab.repository.CourseRepository;
 import com.flab.repository.ScoreRepository;
 import com.flab.repository.StudentRepository;
+import com.flab.service.impl.TranscriptServiceImpl;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -32,10 +33,10 @@ class TranscriptServiceImplTest {
     private static final Course SCIENCE = new Course().setId(4).setName("science");
 
     // newly added to eliminate duplicate codes & magic numbers
-    final int KOREAN_COURSE_ID = KOREAN.getId();
-    final int ENGLISH_COURSE_ID = ENGLISH.getId();
-    final int MATH_COURSE_ID = MATH.getId();
-    final int SCIENCE_COURSE_ID = SCIENCE.getId();
+    private static final int KOREAN_COURSE_ID = KOREAN.getId();
+    private static final int ENGLISH_COURSE_ID = ENGLISH.getId();
+    private static final int MATH_COURSE_ID = MATH.getId();
+    private static final int SCIENCE_COURSE_ID = SCIENCE.getId();
 
     // newly added to eliminate duplicate codes
     private static final Student TREY = new Student().setId(1).setName("Trey").setMajor("Computer Engineering").setCourses(List.of(KOREAN, ENGLISH, MATH, SCIENCE));
